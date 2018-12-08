@@ -1,0 +1,46 @@
+package com.company.Server.Commands;
+
+import com.company.Commons.BaseCommand;
+
+import java.util.Vector;
+
+public class ServerCommand extends BaseCommand {
+    private static Vector<ServerCommand> ServerCommands = null;
+
+    public ServerCommand(String name, String description) {
+        super(name, description);
+        if (ServerCommands == null) {
+            ServerCommands = new Vector<>();
+        }
+        ServerCommands.add(this);
+    }
+
+    @Override
+    protected String action(String body) {
+        //@Override this method
+        //TODO YOUR COMMAND
+        //See also RabbitsCleanUpCommand
+        return "Ok";
+    }
+
+    public static String invokeCommands(String header, String context) {
+        for (ServerCommand command :
+                ServerCommands) {
+            if (command.isMatch(header, context)) {
+                return command.action(context);
+            }
+        }
+        return "404";
+    }
+
+    public static String invokeCommands(String headerSharpContext) {
+        int sharpIndex = headerSharpContext.indexOf("#");
+        try {
+            String header = headerSharpContext.substring(0, sharpIndex);
+            String context = headerSharpContext.substring(sharpIndex + 1);
+            return invokeCommands(header, context);
+        } catch (Exception ex) {
+            return "400 Bad request";
+        }
+    }
+}
