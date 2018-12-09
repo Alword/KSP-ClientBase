@@ -1,10 +1,10 @@
 package com.company.Server.Commands;
 
-import com.company.Commons.BaseCommand;
+import com.company.Common.Commons.BaseCommand;
 
 import java.util.Vector;
 
-public class ServerCommand extends BaseCommand {
+public class ServerCommand extends BaseCommand<String> {
     private static Vector<ServerCommand> ServerCommands = null;
 
     public ServerCommand(String name, String description) {
@@ -16,7 +16,7 @@ public class ServerCommand extends BaseCommand {
     }
 
     @Override
-    protected String action(String body) {
+    public String action(String body) {
         //@Override this method
         //TODO YOUR COMMAND
         //See also RabbitsCleanUpCommand

@@ -1,7 +1,6 @@
 package com.company.Server.Commands.DirectCommands.CreateCommands;
 
-import com.company.Models.Domains.OrganizationWorker;
-import com.company.Models.Domains.ServiceContract;
+import com.company.Common.Models.Domains.ServiceContract;
 import com.company.Server.Commands.ServerCommand;
 import com.company.Server.IOC;
 import com.google.gson.Gson;
@@ -15,7 +14,7 @@ public class AddServiceContractCommand extends ServerCommand {
     }
 
     @Override
-    protected String action(String body) {
+    public String action(String body) {
         try {
             ServiceContract entity = gson.fromJson(body, ServiceContract .class);
             entity = IOC.ServiceContractsRepository.create(entity);

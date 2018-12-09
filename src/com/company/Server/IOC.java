@@ -1,10 +1,7 @@
 package com.company.Server;
 
-import com.company.Models.ClientBaseContext;
-import com.company.Models.Domains.Email;
-import com.company.Models.Repositories.*;
-
-import javax.xml.crypto.Data;
+import com.company.Common.Models.ClientBaseContext;
+import com.company.Common.Models.Repositories.*;
 
 public class IOC {
     public static ClientBaseContext DatabaseInstance;

@@ -1,6 +1,6 @@
 package com.company.Server.Commands.DirectCommands.CreateCommands;
 
-import com.company.Models.Domains.EmployeeGroup;
+import com.company.Common.Models.Domains.EmployeeGroup;
 import com.company.Server.Commands.ServerCommand;
 import com.company.Server.IOC;
 import com.google.gson.Gson;
@@ -14,7 +14,7 @@ public class AddEmployeeGroupCommand extends ServerCommand {
     }
 
     @Override
-    protected String action(String body) {
+    public String action(String body) {
         try {
             EmployeeGroup entity = gson.fromJson(body, EmployeeGroup.class);
             entity = IOC.EmployeeGroupsRepository.create(entity);

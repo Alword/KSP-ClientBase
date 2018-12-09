@@ -1,6 +1,6 @@
 package com.company.Server.Commands.DirectCommands.CreateCommands;
 
-import com.company.Models.Domains.Person;
+import com.company.Common.Models.Domains.Person;
 import com.company.Server.Commands.ServerCommand;
 import com.company.Server.IOC;
 import com.google.gson.Gson;
@@ -15,7 +15,7 @@ public class AddPersonCommand extends ServerCommand {
     }
 
     @Override
-    protected String action(String body) {
+    public String action(String body) {
         try {
             Person person = gson.fromJson(body, Person.class);
             person = IOC.PersonsRepository.create(person);

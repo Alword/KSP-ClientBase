@@ -1,7 +1,6 @@
 package com.company.Server.Commands.DirectCommands.CreateCommands;
 
-import com.company.Models.Domains.Address;
-import com.company.Models.Domains.Email;
+import com.company.Common.Models.Domains.Address;
 import com.company.Server.Commands.ServerCommand;
 import com.company.Server.IOC;
 import com.google.gson.Gson;
@@ -9,12 +8,12 @@ import com.google.gson.Gson;
 public class AddAddressCommand extends ServerCommand {
     Gson gson = null;
     public AddAddressCommand() {
-        super("AddAddress", "AddAddress");
+        super("AddAddressCommand", "AddAddressCommand");
         gson = new Gson();
     }
 
     @Override
-    protected String action(String body) {
+    public String action(String body) {
         try {
             Address аddress = gson.fromJson(body, Address.class);
             аddress = IOC.AddressesRepository.create(аddress);
