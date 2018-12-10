@@ -1,5 +1,7 @@
 package com.company.Client;
 
+import com.company.Client.Forms.MainWindow;
+
 import javax.swing.*;
 
 public class Main {
