@@ -8,6 +8,7 @@ import com.company.ServerApi.Models.Connection;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Vector;
 
 public class TestCommands {
@@ -53,6 +54,7 @@ public class TestCommands {
         employee = new EmployeeDirectController(connection).create(employee);
     }
 
+    // Добавить личные данных используя примитивы
     public static void AddPersonRequest(Connection connection) throws IOException {
         PersonRequest personRequest = new PersonRequest();
         personRequest.PersonData = new Person();
@@ -92,5 +94,16 @@ public class TestCommands {
         PersonRequestController personRequestController =
                 new PersonRequestController(connection);
         personRequest = personRequestController.create(personRequest);
+    }
+
+    public static void GetPersonRequest(Connection connection) throws IOException {
+        PersonRequestController personRequestController
+                = new PersonRequestController(connection);
+        List<PersonRequest> personRequestList
+                = personRequestController.getAll();
+        for (PersonRequest personRequest:
+             personRequestList) {
+            System.out.println(personRequest);
+        }
     }
 }

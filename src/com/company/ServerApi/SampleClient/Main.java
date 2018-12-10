@@ -19,6 +19,7 @@ public class Main {
             TestCommands.AddPersonTest(connection);
             TestCommands.AddEmployee(connection);
             TestCommands.AddPersonRequest(connection);
+            TestCommands.GetPersonRequest(connection);
         } catch (Exception ex) {
             ex.printStackTrace();
         }

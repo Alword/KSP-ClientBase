@@ -11,64 +11,32 @@ import com.company.ServerApi.Controllers.DirectController.PersonDirectController
 import com.company.ServerApi.Controllers.DirectController.PhoneDirectController;
 import com.company.ServerApi.Controllers.ServerApiController;
 import com.company.ServerApi.Models.Connection;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
+import java.util.Collection;
 import java.util.List;
 import java.util.Vector;
 
 public class PersonRequestController extends ServerApiController<PersonRequest, PersonRequest> {
 
-    PersonDirectController personDirectController = null;
-    EmailDirectController emailDirectController = null;
-    PhoneDirectController phoneDirectController = null;
-    AddressDirectController addressDirectController = null;
-
     public PersonRequestController(Connection connection) {
         super(connection);
-        personDirectController = new PersonDirectController(connection);
-        emailDirectController = new EmailDirectController(connection);
-        phoneDirectController = new PhoneDirectController(connection);
-        addressDirectController = new AddressDirectController(connection);
     }
 
     @Override
-    public PersonRequest create(PersonRequest personRequest) {
-        // Чтобы отрпавить все данные пользователя
-        // Необходимо отправить основные данны
-        // А также адреса эмейлы и телефоны
-        Person person = personDirectController.create(personRequest.PersonData);
-        personRequest.PersonData = person;
+    public PersonRequest create(PersonRequest body) {
+        String json = gson.toJson(body);
+        json = connection.sendMsg("AddPersonRequestCommand#" + json);
+        body = gson.fromJson(json, PersonRequest.class);
+        return body;
+    }
 
-
-        // Отправить emails
-        List<Email> emailList = new Vector<Email>();
-        for (Email email :
-                personRequest.EmailsData) {
-            email.PersonID = person.Key;
-            Email reqEmail = emailDirectController.create(email);
-            emailList.add(reqEmail);
-        }
-        personRequest.EmailsData = emailList;
-
-        // Отправить phones
-        List<Phone> phonesList = new Vector<Phone>();
-        for (Phone phone :
-                personRequest.PhonesData) {
-            phone.PersonID = person.Key;
-            Phone reqPhone = phoneDirectController.create(phone);
-            phonesList.add(reqPhone);
-        }
-        personRequest.PhonesData = phonesList;
-
-        //Отправить адресса
-        List<Address> addressList = new Vector<>();
-        for (Address address :
-                personRequest.AddressesData) {
-            address.PersonID = person.Key;
-            Address reqAddress = addressDirectController.create(address);
-            addressList.add(reqAddress);
-        }
-        personRequest.AddressesData = addressList;
-
-        return personRequest;
+    public List<PersonRequest> getAll() {
+        String json = connection.sendMsg("GetPersonRequestCommand#all");
+        Type typeOfT = new TypeToken<Collection<PersonRequest>>() {
+        }.getType();
+        List<PersonRequest> personRequestList = gson.fromJson(json, typeOfT);
+        return personRequestList;
     }
 }

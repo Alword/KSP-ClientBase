@@ -1,6 +1,8 @@
 package com.company.Server.Models;
 
 import com.company.Server.Commands.DirectCommands.CreateCommands.*;
+import com.company.Server.Commands.RequestCommands.AddPersonRequestCommand;
+import com.company.Server.Commands.RequestCommands.GetPersonRequestCommand;
 
 public class Mapping {
     public Mapping() {
@@ -9,6 +11,7 @@ public class Mapping {
 
     private void commandMapping() {
         DirectAddCommands();
+        RequestAddCommands();
     }
 
     private void DirectAddCommands() {
@@ -22,5 +25,9 @@ public class Mapping {
         new AddPhoneCommand();
         new AddServiceCommand();
         new AddServiceContractCommand();
+    }
+    private void RequestAddCommands(){
+        new AddPersonRequestCommand();
+        new GetPersonRequestCommand();
     }
 }
