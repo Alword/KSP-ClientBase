@@ -1,8 +1,7 @@
 package com.company.Server.Models;
 
 import com.company.Server.Commands.DirectCommands.CreateCommands.*;
-import com.company.Server.Commands.RequestCommands.AddPersonRequestCommand;
-import com.company.Server.Commands.RequestCommands.GetPersonRequestCommand;
+import com.company.Server.Commands.RequestCommands.*;
 
 public class Mapping {
     public Mapping() {
@@ -29,5 +28,6 @@ public class Mapping {
     private void RequestAddCommands(){
         new AddPersonRequestCommand();
         new GetPersonRequestCommand();
+        new DeletePersonRequestCommand();
     }
 }

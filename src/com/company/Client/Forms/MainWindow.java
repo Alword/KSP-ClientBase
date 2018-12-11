@@ -1,5 +1,8 @@
 package com.company.Client.Forms;
 
+import com.company.Client.Actions.DeletePersonClickAction;
+import com.company.Client.Actions.SetPersonClickAction;
+import com.company.Client.Actions.UpdateFromClickAction;
 import com.company.Client.Actions.UpdatePersonClickAction;
 import com.company.Client.Services.PersonRequestServices;
 import com.company.Common.Models.Domains.*;
@@ -28,7 +31,9 @@ public class MainWindow {
     public JTextField phonesJTextField;
     public JTextField middleNameJTextFiled;
     public JTextField firstNameJTextFiled;
+    public JTable personTable;
     JButton addJButton;
+    private JButton deletePersonJButton;
 
     private Connection connection = null;
 
@@ -37,6 +42,10 @@ public class MainWindow {
         PersonRequestServices personRequestServices = null;
         personRequestServices = new PersonRequestServices(this);
         addJButton.addMouseListener(new UpdatePersonClickAction(personRequestServices));
+        buttonMsg.addMouseListener(new UpdateFromClickAction(personRequestServices));
+        personTable.addMouseListener(new SetPersonClickAction(personRequestServices));
+        deletePersonJButton.addMouseListener(new DeletePersonClickAction(personRequestServices));
+        personRequestServices.updateTable();
     }
 
     public JPanel getPanelMain() {

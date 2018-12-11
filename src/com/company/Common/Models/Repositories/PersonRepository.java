@@ -50,8 +50,27 @@ public class PersonRepository extends BaseRepository<Person> {
     }
 
     public List<PersonRequest> getInclude() {
-        List<PersonRequest> personRequestList = new Vector<>();
         List<Person> personList = get();
+        List<PersonRequest> personRequestList = null;
+        personRequestList = loadRelations(personList);
+        return personRequestList;
+    }
+
+    public PersonRequest getInclude(int id) {
+        List<Person> personList = new Vector<>();
+        personList.add(findById(id));
+        PersonRequest personRequest = null;
+        List results = loadRelations(personList);
+        if (results != null && results.size() > 0) {
+            personRequest = loadRelations(personList).get(0);
+            return personRequest;
+        } else {
+            return null;
+        }
+    }
+
+    private List<PersonRequest> loadRelations(List<Person> personList) {
+        List<PersonRequest> personRequestList = new Vector<>();
         for (Person person :
                 personList) {
             PersonRequest personRequest = new PersonRequest();
@@ -60,7 +79,7 @@ public class PersonRepository extends BaseRepository<Person> {
                     IOC.EmailsRepository.get(email -> email.PersonID == person.Key);
             personRequest.AddressesData =
                     IOC.AddressesRepository.get(address -> address.PersonID == person.Key);
-            personRequest.PhonesData=
+            personRequest.PhonesData =
                     IOC.PhonesRepository.get(phone -> phone.PersonID == person.Key);
 
             personRequestList.add(personRequest);

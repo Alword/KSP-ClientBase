@@ -27,7 +27,15 @@ public class ServerCommand extends BaseCommand<String> {
         for (ServerCommand command :
                 ServerCommands) {
             if (command.isMatch(header, context)) {
-                return command.action(context);
+                try {
+                    return command.action(context);
+                } catch (Exception ex) {
+                    String error = "422 Unprocessable Entity in " +
+                            "request header: " + header +
+                            "request context: " + context;
+                    System.out.println(error);
+                    return error;
+                }
             }
         }
         return "404";

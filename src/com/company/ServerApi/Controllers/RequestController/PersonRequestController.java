@@ -39,4 +39,14 @@ public class PersonRequestController extends ServerApiController<PersonRequest, 
         List<PersonRequest> personRequestList = gson.fromJson(json, typeOfT);
         return personRequestList;
     }
+
+    public PersonRequest getByID(Integer id) {
+        String json = connection.sendMsg("GetPersonRequestCommand#" + id.toString());
+        PersonRequest personRequest = gson.fromJson(json, PersonRequest.class);
+        return personRequest;
+    }
+
+    public void deleteByID(Integer id) {
+        String json = connection.sendMsg("DeletePersonRequestCommand#" + id.toString());
+    }
 }

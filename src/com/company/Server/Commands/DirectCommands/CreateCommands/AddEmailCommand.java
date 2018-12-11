@@ -15,13 +15,9 @@ public class AddEmailCommand extends ServerCommand {
 
     @Override
     public String action(String body) {
-        try {
-            Email email = gson.fromJson(body, Email.class);
-            email = IOC.EmailsRepository.create(email);
-            String answer = gson.toJson(email);
-            return answer;
-        } catch (Exception ex) {
-            return "422 Unprocessable Entity";
-        }
+        Email email = gson.fromJson(body, Email.class);
+        email = IOC.EmailsRepository.create(email);
+        String answer = gson.toJson(email);
+        return answer;
     }
 }

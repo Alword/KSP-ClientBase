@@ -15,13 +15,9 @@ public class AddPhoneCommand extends ServerCommand {
 
     @Override
     public String action(String body) {
-        try {
-            Phone phone = gson.fromJson(body,Phone.class);
-            phone = IOC.PhonesRepository.create(phone);
-            String answer = gson.toJson(phone);
-            return answer;
-        } catch (Exception ex) {
-            return "422 Unprocessable Entity";
-        }
+        Phone phone = gson.fromJson(body, Phone.class);
+        phone = IOC.PhonesRepository.create(phone);
+        String answer = gson.toJson(phone);
+        return answer;
     }
 }

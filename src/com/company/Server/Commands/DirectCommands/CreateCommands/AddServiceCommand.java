@@ -15,13 +15,9 @@ public class AddServiceCommand extends ServerCommand {
 
     @Override
     public String action(String body) {
-        try {
-            Service entity = gson.fromJson(body, Service.class);
-            entity = IOC.ServicesRepository.create(entity);
-            String answer = gson.toJson(entity);
-            return answer;
-        } catch (Exception ex) {
-            return "422 Unprocessable Entity";
-        }
+        Service entity = gson.fromJson(body, Service.class);
+        entity = IOC.ServicesRepository.create(entity);
+        String answer = gson.toJson(entity);
+        return answer;
     }
 }

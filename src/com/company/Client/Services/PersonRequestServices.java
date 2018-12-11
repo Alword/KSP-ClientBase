@@ -8,6 +8,9 @@ import com.company.Common.Models.Domains.Phone;
 import com.company.Common.Models.Requests.PersonRequest;
 import com.company.ServerApi.Controllers.RequestController.PersonRequestController;
 
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableModel;
 import java.util.Collection;
 import java.util.List;
 import java.util.Vector;
@@ -17,9 +20,11 @@ import java.util.stream.Stream;
 
 public class PersonRequestServices {
     private MainWindow window = null;
+    private PersonRequestController controller = null;
 
     public PersonRequestServices(MainWindow mainWindow) {
         window = mainWindow;
+        controller = new PersonRequestController(window.getConnection());
     }
 
     public PersonRequest send() {
@@ -35,9 +40,11 @@ public class PersonRequestServices {
         List<Email> emailList = new Vector<>();
         for (String emailString :
                 emailsStrings) {
-            Email email = new Email();
-            email.Email = emailString;
-            emailList.add(email);
+            if (emailString.length() > 0) {
+                Email email = new Email();
+                email.Email = emailString;
+                emailList.add(email);
+            }
         }
         personRequest.EmailsData = emailList;
 
@@ -45,9 +52,11 @@ public class PersonRequestServices {
         List<Phone> phonesList = new Vector<>();
         for (String phoneString :
                 phonesString) {
-            Phone phone = new Phone();
-            phone.Phone = phoneString;
-            phonesList.add(phone);
+            if (phoneString.length() > 0) {
+                Phone phone = new Phone();
+                phone.Phone = phoneString;
+                phonesList.add(phone);
+            }
         }
         personRequest.PhonesData = phonesList;
 
@@ -55,9 +64,11 @@ public class PersonRequestServices {
         List<Address> addressList = new Vector<>();
         for (String addressString :
                 addressesString) {
-            Address address = new Address();
-            address.Address = addressString;
-            addressList.add(address);
+            if (addressString.length() > 0) {
+                Address address = new Address();
+                address.Address = addressString;
+                addressList.add(address);
+            }
         }
         personRequest.AddressesData = addressList;
         PersonRequestController controller
@@ -92,6 +103,44 @@ public class PersonRequestServices {
 
     }
 
+    public void setSelected() {
+        Integer selected = window.personTable.getSelectedRow();
+        TableModel tableModel = window.personTable.getModel();
+        Integer key = Integer.parseInt(tableModel.getValueAt(selected, 0).toString());
+        PersonRequest personRequest = controller.getByID(key);
+        set(personRequest);
+    }
+
+    public void removeCurrent() {
+        int currentID = Integer.parseInt(window.keyLabel.getText());
+        controller.deleteByID(currentID);
+        clearForm();
+    }
+
+    public void updateTable() {
+        DefaultTableModel tableModel = new DefaultTableModel();
+        tableModel.addColumn("Табельный номер");
+        tableModel.addColumn("Фамилия");
+        tableModel.addColumn("Имя");
+        tableModel.addColumn("Отчество");
+        tableModel.addColumn("Email");
+        tableModel.addColumn("Адрес");
+        tableModel.addColumn("Мобильный");
+        List<PersonRequest> personRequests = controller.getAll();
+        for (PersonRequest personRequest : personRequests) {
+            Vector<String> tableRow = new Vector<>();
+            tableRow.add(((Integer) personRequest.PersonData.Key).toString());
+            tableRow.add(personRequest.PersonData.LastName);
+            tableRow.add(personRequest.PersonData.FirstName);
+            tableRow.add(personRequest.PersonData.MiddleName);
+            tableRow.add(listToString(personRequest.EmailsData, Email -> Email.Email + ";"));
+            tableRow.add(listToString(personRequest.AddressesData, address -> address.Address + ";"));
+            tableRow.add(listToString(personRequest.PhonesData, phone -> phone.Phone + ";"));
+            tableModel.addRow(tableRow);
+        }
+        window.personTable.setModel(tableModel);
+    }
+
     private static <T> String listToString(Collection<T> collection, Function<T, String> mapper) {
         String dataString = collection
                 .stream()
@@ -101,5 +150,15 @@ public class PersonRequestServices {
         if (dataString.length() > 1)
             dataString = dataString.substring(0, dataString.length() - 1);
         return dataString;
+    }
+
+    private void clearForm() {
+        window.keyLabel.setText("");
+        window.middleNameJTextFiled.setText("");
+        window.lastNameJTextFiled.setText("");
+        window.firstNameJTextFiled.setText("");
+        window.emailsJTextField.setText("");
+        window.phonesJTextField.setText("");
+        window.addressesJTextField.setText("");
     }
 }

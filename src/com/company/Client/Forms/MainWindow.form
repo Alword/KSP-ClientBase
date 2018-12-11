@@ -41,11 +41,6 @@
                   <text value="Фамилия"/>
                 </properties>
               </component>
-              <vspacer id="ad132">
-                <constraints>
-                  <grid row="7" column="0" row-span="1" col-span="5" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-                </constraints>
-              </vspacer>
               <component id="2a88f" class="javax.swing.JLabel">
                 <constraints>
                   <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
@@ -134,7 +129,7 @@
                 </constraints>
                 <properties/>
               </component>
-              <component id="27e9b" class="javax.swing.JButton" default-binding="true">
+              <component id="27e9b" class="javax.swing.JButton" binding="deletePersonJButton">
                 <constraints>
                   <grid row="6" column="3" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -166,6 +161,19 @@
                   <text value="PersonId"/>
                 </properties>
               </component>
+              <scrollpane id="d7988">
+                <constraints>
+                  <grid row="7" column="0" row-span="1" col-span="6" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="a2d06" class="javax.swing.JTable" binding="personTable">
+                    <constraints/>
+                    <properties/>
+                  </component>
+                </children>
+              </scrollpane>
             </children>
           </grid>
           <grid id="76beb" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">

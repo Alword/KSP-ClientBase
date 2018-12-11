@@ -101,9 +101,6 @@ public class TestCommands {
                 = new PersonRequestController(connection);
         List<PersonRequest> personRequestList
                 = personRequestController.getAll();
-        for (PersonRequest personRequest:
-             personRequestList) {
-            System.out.println(personRequest);
-        }
+        System.out.println("PersonCount: " + personRequestList.size());
     }
 }

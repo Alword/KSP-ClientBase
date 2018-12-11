@@ -15,13 +15,9 @@ public class AddClientCommand extends ServerCommand {
 
     @Override
     public String action(String body) {
-        try {
-            Client entity = gson.fromJson(body, Client.class);
-            entity = IOC.ClientsRepository.create(entity);
-            String answer = gson.toJson(entity);
-            return answer;
-        } catch (Exception ex) {
-            return "422 Unprocessable Entity";
-        }
+        Client entity = gson.fromJson(body, Client.class);
+        entity = IOC.ClientsRepository.create(entity);
+        String answer = gson.toJson(entity);
+        return answer;
     }
 }

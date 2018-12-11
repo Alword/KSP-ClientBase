@@ -1,6 +1,7 @@
 package com.company.Common.Commons;
 
 import com.company.Common.Interfaces.IRepository;
+import com.company.Common.Models.Repositories.EmailRepository;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -36,7 +37,7 @@ public class BaseRepository<Entity extends DomainObject> implements IRepository<
 
     @Override
     public void remove(Entity object) {
-        dbSet.remove(object);
+        remove(object.Key);
     }
 
     @Override

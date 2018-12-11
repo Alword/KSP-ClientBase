@@ -17,16 +17,27 @@ public class GetPersonRequestCommand extends ServerCommand {
 
     @Override
     public String action(String body) {
-        try {
-            if (body.equals("all")) {
-                List<PersonRequest> personRequest = IOC.PersonsRepository.getInclude();
-                String answer = gson.toJson(personRequest);
-                return answer;
-            } else {
-                return null;
-            }
-        } catch (Exception ex) {
-            return "422 Unprocessable Entity";
+        if (body.equals("all")) {
+            return getAll();
+        } else {
+            return getByID(body);
         }
+    }
+
+    private String getAll() {
+        List<PersonRequest> personRequest = IOC.PersonsRepository.getInclude();
+        String answer = gson.toJson(personRequest);
+        return answer;
+    }
+
+    private String getByID(String idString) {
+        Integer id = Integer.parseInt(idString);
+        return getByID(id);
+    }
+
+    private String getByID(Integer id) {
+        PersonRequest personRequest = IOC.PersonsRepository.getInclude(id);
+        String answer = gson.toJson(personRequest);
+        return answer;
     }
 }

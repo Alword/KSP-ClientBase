@@ -15,13 +15,9 @@ public class AddEmployeeCommand extends ServerCommand {
 
     @Override
     public String action(String body) {
-        try {
-            Employee entity = gson.fromJson(body, Employee.class);
-            entity = IOC.EmployeesRepository.create(entity);
-            String answer = gson.toJson(entity);
-            return answer;
-        } catch (Exception ex) {
-            return "422 Unprocessable Entity";
-        }
+        Employee entity = gson.fromJson(body, Employee.class);
+        entity = IOC.EmployeesRepository.create(entity);
+        String answer = gson.toJson(entity);
+        return answer;
     }
 }

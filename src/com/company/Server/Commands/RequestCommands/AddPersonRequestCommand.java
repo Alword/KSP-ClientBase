@@ -16,13 +16,9 @@ public class AddPersonRequestCommand extends ServerCommand {
 
     @Override
     public String action(String body) {
-        try {
             PersonRequest personRequest = gson.fromJson(body, PersonRequest.class);
             personRequest = IOC.PersonsRepository.create(personRequest);
             String answer = gson.toJson(personRequest);
             return answer;
-        } catch (Exception ex) {
-            return "422 Unprocessable Entity";
-        }
     }
 }
