@@ -8,11 +8,16 @@ import com.company.Common.Models.Domains.Phone;
 import com.company.Common.Models.Requests.PersonRequest;
 import com.company.ServerApi.Controllers.RequestController.PersonRequestController;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Vector;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class PersonRequestServices {
     private MainWindow window = null;
+
     public PersonRequestServices(MainWindow mainWindow) {
         window = mainWindow;
     }
@@ -59,6 +64,42 @@ public class PersonRequestServices {
                 = new PersonRequestController(window.getConnection());
         PersonRequest personResult
                 = controller.create(personRequest);
-        return personRequest;
+        set(personResult);
+        return personResult;
+    }
+
+    public void set(PersonRequest personRequest) {
+        Person person = personRequest.PersonData;
+        window.keyLabel.setText(((Integer) person.Key).toString());
+        window.middleNameJTextFiled.setText(person.MiddleName);
+        window.lastNameJTextFiled.setText(person.LastName);
+        window.firstNameJTextFiled.setText(person.FirstName);
+
+        String emailString
+                = listToString(personRequest.EmailsData,
+                e -> e.Email + ";");
+        window.emailsJTextField.setText(emailString);
+
+        String phoneString
+                = listToString(personRequest.PhonesData,
+                e -> e.Phone + ";");
+        window.phonesJTextField.setText(phoneString);
+
+        String addressString
+                = listToString(personRequest.AddressesData,
+                e -> e.Address + ";");
+        window.addressesJTextField.setText(addressString);
+
+    }
+
+    private static <T> String listToString(Collection<T> collection, Function<T, String> mapper) {
+        String dataString = collection
+                .stream()
+                .map(mapper)
+                .collect(Collectors.joining());
+
+        if (dataString.length() > 1)
+            dataString = dataString.substring(0, dataString.length() - 1);
+        return dataString;
     }
 }
