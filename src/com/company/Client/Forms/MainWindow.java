@@ -1,21 +1,11 @@
 package com.company.Client.Forms;
 
-import com.company.Client.Actions.DeletePersonClickAction;
-import com.company.Client.Actions.SetPersonClickAction;
-import com.company.Client.Actions.UpdateFromClickAction;
-import com.company.Client.Actions.UpdatePersonClickAction;
+import com.company.Client.Actions.*;
 import com.company.Client.Services.PersonRequestServices;
-import com.company.Common.Models.Domains.*;
-import com.company.Common.Models.Requests.PersonRequest;
-import com.company.ServerApi.Controllers.RequestController.PersonRequestController;
 import com.company.ServerApi.Models.Connection;
 
 import javax.swing.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.IOException;
-import java.util.List;
-import java.util.Vector;
 
 public class MainWindow {
 
@@ -34,6 +24,8 @@ public class MainWindow {
     public JTable personTable;
     JButton addJButton;
     private JButton deletePersonJButton;
+    private JButton addClientButton;
+    private JButton addEmployeeButton;
 
     private Connection connection = null;
 
@@ -46,6 +38,7 @@ public class MainWindow {
         personTable.addMouseListener(new SetPersonClickAction(personRequestServices));
         deletePersonJButton.addMouseListener(new DeletePersonClickAction(personRequestServices));
         personRequestServices.updateTable();
+        addClientButton.addMouseListener(new AddClientClickAction(personRequestServices));
     }
 
     public JPanel getPanelMain() {
@@ -64,14 +57,15 @@ public class MainWindow {
         boolean isDisconnected = true;
         do {
             try {
+                // Попытка подключения к серверу
                 connection = new Connection();
                 isDisconnected = false;
             } catch (IOException ex) {
                 System.out.println("Сервер недоступен");
+                // Ожидание, если сервер недоступен
                 Thread x = new Thread();
                 Thread.sleep(2000);
             }
         } while (isDisconnected);
     }
-
 }
