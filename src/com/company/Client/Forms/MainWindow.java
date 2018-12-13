@@ -1,6 +1,7 @@
 package com.company.Client.Forms;
 
 import com.company.Client.Actions.*;
+import com.company.Client.Services.ClientEmployeeServices;
 import com.company.Client.Services.PersonRequestServices;
 import com.company.ServerApi.Models.Connection;
 
@@ -26,6 +27,8 @@ public class MainWindow {
     private JButton deletePersonJButton;
     private JButton addClientButton;
     private JButton addEmployeeButton;
+    public JTable employeeJTable;
+    public JTable clientsJTable;
 
     private Connection connection = null;
 
@@ -33,12 +36,16 @@ public class MainWindow {
         connectToServer();
         PersonRequestServices personRequestServices = null;
         personRequestServices = new PersonRequestServices(this);
+        ClientEmployeeServices clientEmployeeServices = null;
+        
+        clientEmployeeServices = new ClientEmployeeServices(this);
         addJButton.addMouseListener(new UpdatePersonClickAction(personRequestServices));
-        buttonMsg.addMouseListener(new UpdateFromClickAction(personRequestServices));
+        buttonMsg.addMouseListener(new UpdateFromClickAction(personRequestServices, clientEmployeeServices));
         personTable.addMouseListener(new SetPersonClickAction(personRequestServices));
         deletePersonJButton.addMouseListener(new DeletePersonClickAction(personRequestServices));
         personRequestServices.updateTable();
-        addClientButton.addMouseListener(new AddClientClickAction(personRequestServices));
+        addClientButton.addMouseListener(new AddClientClickAction(clientEmployeeServices));
+        addEmployeeButton.addMouseListener(new AddEmployeeClickAction(clientEmployeeServices));
     }
 
     public JPanel getPanelMain() {
