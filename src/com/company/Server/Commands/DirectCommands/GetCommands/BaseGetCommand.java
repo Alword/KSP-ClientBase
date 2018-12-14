@@ -15,15 +15,13 @@ import java.util.List;
 
 public class BaseGetCommand<Entity extends DomainObject> extends ServerCommand {
 
-    Gson gson = null;
-    BaseRepository<Entity> repository = null;
-    Type type;
+    private Gson gson = null;
+    private BaseRepository<Entity> repository = null;
 
-    public BaseGetCommand(String getEntityCommandName, BaseRepository<Entity> repository, Type type) {
+    public BaseGetCommand(String getEntityCommandName, BaseRepository<Entity> repository) {
         super(getEntityCommandName, getEntityCommandName);
         gson = new Gson();
         this.repository = repository;
-        this.type = type;
     }
 
     @Override
@@ -34,8 +32,9 @@ public class BaseGetCommand<Entity extends DomainObject> extends ServerCommand {
         } else {
             List<Entity> entities = repository.get(c -> c.Key == Integer.parseInt(body));
             Entity requestEntity = entities.get(0);
-            Type type = new TypeToken<Entity>() {}.getType();
-            return gson.toJson(requestEntity,type);
+            Type type = new TypeToken<Entity>() {
+            }.getType();
+            return gson.toJson(requestEntity, type);
         }
     }
 }

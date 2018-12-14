@@ -15,7 +15,6 @@ public class BaseRepository<Entity extends DomainObject> implements IRepository<
         this.dbSet = dbSet;
     }
 
-
     @Override
     public Entity create(Entity entity) {
         entity.Key = generateID();

@@ -29,6 +29,8 @@ public class MainWindow {
     private JButton addEmployeeButton;
     public JTable employeeJTable;
     public JTable clientsJTable;
+    private JTextField textField1;
+    private JButton добавитьButton;
 
     private Connection connection = null;
 

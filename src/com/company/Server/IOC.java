@@ -2,6 +2,7 @@ package com.company.Server;
 
 import com.company.Common.Models.ClientBaseContext;
 import com.company.Common.Models.Repositories.*;
+import com.company.Server.Models.FileManager;
 
 public class IOC {
     public static ClientBaseContext DatabaseInstance;
@@ -15,6 +16,7 @@ public class IOC {
     public static PhoneRepository PhonesRepository;
     public static ServiceContractRepository ServiceContractsRepository;
     public static ServiceRepository ServicesRepository;
+    public static FileManager FileManager;
 
     public IOC() {
         DatabaseInstance = new ClientBaseContext();
@@ -28,5 +30,8 @@ public class IOC {
         PhonesRepository = new PhoneRepository(DatabaseInstance.Phones);
         ServiceContractsRepository = new ServiceContractRepository(DatabaseInstance.ServiceContracts);
         ServicesRepository = new ServiceRepository(DatabaseInstance.Services);
+
+        FileManager = new FileManager();
+        FileManager.LoadContext();
     }
 }

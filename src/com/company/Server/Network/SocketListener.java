@@ -1,6 +1,7 @@
 package com.company.Server.Network;
 
 import com.company.Server.Commands.ServerCommand;
+import com.company.Server.IOC;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -33,6 +34,7 @@ public class SocketListener implements Runnable {
         } catch (Exception e) {
             hub.Connections.remove(socket);
         } finally {
+            IOC.FileManager.SaveContext();
             System.out.println(socket.toString() + " Stopped");
         }
     }
