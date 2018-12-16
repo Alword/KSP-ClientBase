@@ -59,13 +59,17 @@ public class MainWindow {
 
         addJButton.addMouseListener(new UpdatePersonClickAction(personRequestServices));
         buttonMsg.addMouseListener(new UpdateFromClickAction(personRequestServices,
-                clientEmployeeServices,contractServices));
+                clientEmployeeServices, contractServices));
         personTable.addMouseListener(new SetPersonClickAction(personRequestServices));
         deletePersonJButton.addMouseListener(new DeletePersonClickAction(personRequestServices));
-        personRequestServices.updateTable();
         addClientButton.addMouseListener(new AddClientClickAction(clientEmployeeServices));
         addEmployeeButton.addMouseListener(new AddEmployeeClickAction(clientEmployeeServices));
         добавитьButton.addMouseListener(new AddServiceContractAction(contractServices));
+
+        personRequestServices.updateTable();
+        clientEmployeeServices.refreshEmployees();
+        clientEmployeeServices.refreshClients();
+        contractServices.refreshContracts();
     }
 
     public JPanel getPanelMain() {

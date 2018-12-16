@@ -62,6 +62,7 @@ public class ContractServices {
         contractsTableModel.addColumn("Название");
         contractsTableModel.addColumn("Цена");
         contractsTableModel.addColumn("Клиент");
+        contractsTableModel.addColumn("Рабочие");
         contractsTableModel.addColumn("Время");
 
         for (ServiceContractRequest serviceContractRequest :
@@ -81,8 +82,15 @@ public class ContractServices {
             String clientIDString = serviceContractRequest.ClientID.toString();
             stringVector.add(clientIDString);
 
-            //Добавить Время
+            //Добавить рабочих
+            String workers = "";
+            for (Integer workerId :
+                    serviceContractRequest.WorkerIDs) {
+                workers += workerId + ";";
+            }
+            stringVector.add(workers);
 
+            //Добавить Время
             long milliSeconds = serviceContractRequest.contractData.TimeStamp;
             SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm");
             Date resultDate = new Date(milliSeconds);

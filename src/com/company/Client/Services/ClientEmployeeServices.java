@@ -41,7 +41,18 @@ public class ClientEmployeeServices {
     }
 
     public void refreshEmployees() {
-
+        List<Employee> employees = employeeDirectController.getAll();
+        DefaultTableModel clientsTableModel = new DefaultTableModel();
+        clientsTableModel.addColumn("id");
+        clientsTableModel.addColumn("Номер личного дела");
+        for (Employee employee :
+                employees) {
+            Vector<String> stringVector = new Vector<>();
+            stringVector.add(((Integer) employee.Key).toString());
+            stringVector.add(((Integer)employee.PersonID).toString());
+            clientsTableModel.addRow(stringVector);
+        }
+        window.employeeJTable.setModel(clientsTableModel);
     }
 
     public void refreshClients() {

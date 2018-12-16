@@ -19,6 +19,6 @@ public class AddEmployeeClickAction extends AddClientClickAction {
         message = textField.getText();
         prompterFrame.dispose();
         ceServices.addEmployee(Integer.parseInt(message));
-        //ceServices.refreshEmployee();
+        ceServices.refreshEmployees();
     }
 }
