@@ -3,6 +3,7 @@ package com.company.Client.Forms;
 import com.company.Client.Actions.*;
 import com.company.Client.Services.ClientEmployeeServices;
 import com.company.Client.Services.ContractServices;
+import com.company.Client.Services.FilterContractServices;
 import com.company.Client.Services.PersonRequestServices;
 import com.company.ServerApi.Models.Connection;
 
@@ -32,7 +33,7 @@ public class MainWindow {
     private JButton addEmployeeButton;
     public JTable employeeJTable;
     public JTable clientsJTable;
-    private JButton добавитьButton;
+    private JButton addContractButton;
     private JLabel ContractNameLabel;
     private JLabel contractPriceLabel;
     private JLabel clientIDLabel;
@@ -42,6 +43,8 @@ public class MainWindow {
     public JTextField clientIDText;
     public JTextField workersIDText;
     public JTable contractJTable;
+    private JTextField filterClient;
+    private JButton filterButton;
 
     private Connection connection = null;
 
@@ -50,21 +53,25 @@ public class MainWindow {
 
         PersonRequestServices personRequestServices = null;
         personRequestServices = new PersonRequestServices(this);
+        addJButton.addMouseListener(new UpdatePersonClickAction(personRequestServices));
+        personTable.addMouseListener(new SetPersonClickAction(personRequestServices));
+        deletePersonJButton.addMouseListener(new DeletePersonClickAction(personRequestServices));
 
         ClientEmployeeServices clientEmployeeServices = null;
         clientEmployeeServices = new ClientEmployeeServices(this);
+        addClientButton.addMouseListener(new AddClientClickAction(clientEmployeeServices));
+        addEmployeeButton.addMouseListener(new AddEmployeeClickAction(clientEmployeeServices));
 
         ContractServices contractServices = null;
         contractServices = new ContractServices(this);
+        addContractButton.addMouseListener(new AddServiceContractAction(contractServices));
 
-        addJButton.addMouseListener(new UpdatePersonClickAction(personRequestServices));
+        FilterContractServices filterContractServices = null;
+        filterContractServices = new FilterContractServices(this);
+        filterButton.addMouseListener(new FilterContractAction(filterContractServices));
+
         buttonMsg.addMouseListener(new UpdateFromClickAction(personRequestServices,
                 clientEmployeeServices, contractServices));
-        personTable.addMouseListener(new SetPersonClickAction(personRequestServices));
-        deletePersonJButton.addMouseListener(new DeletePersonClickAction(personRequestServices));
-        addClientButton.addMouseListener(new AddClientClickAction(clientEmployeeServices));
-        addEmployeeButton.addMouseListener(new AddEmployeeClickAction(clientEmployeeServices));
-        добавитьButton.addMouseListener(new AddServiceContractAction(contractServices));
 
         personRequestServices.updateTable();
         clientEmployeeServices.refreshEmployees();
