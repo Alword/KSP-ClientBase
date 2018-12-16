@@ -2,10 +2,13 @@ package com.company.Client.Forms;
 
 import com.company.Client.Actions.*;
 import com.company.Client.Services.ClientEmployeeServices;
+import com.company.Client.Services.ContractServices;
 import com.company.Client.Services.PersonRequestServices;
 import com.company.ServerApi.Models.Connection;
 
 import javax.swing.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 
 public class MainWindow {
@@ -31,20 +34,25 @@ public class MainWindow {
     public JTable clientsJTable;
     private JTextField textField1;
     private JButton добавитьButton;
-    private JLabel ContractNameLabel;
-    private JLabel contractPriceLabel;
-    private JLabel clientIDLabel;
-    private JLabel workersIDLabel;
+    public JLabel ContractNameLabel;
+    public JLabel contractPriceLabel;
+    public JLabel clientIDLabel;
+    public JLabel workersIDLabel;
 
     private Connection connection = null;
 
     public MainWindow() throws InterruptedException {
         connectToServer();
+
         PersonRequestServices personRequestServices = null;
         personRequestServices = new PersonRequestServices(this);
+
         ClientEmployeeServices clientEmployeeServices = null;
-        
         clientEmployeeServices = new ClientEmployeeServices(this);
+
+        ContractServices contractServices = null;
+        contractServices = new ContractServices(this);
+
         addJButton.addMouseListener(new UpdatePersonClickAction(personRequestServices));
         buttonMsg.addMouseListener(new UpdateFromClickAction(personRequestServices, clientEmployeeServices));
         personTable.addMouseListener(new SetPersonClickAction(personRequestServices));
@@ -52,6 +60,7 @@ public class MainWindow {
         personRequestServices.updateTable();
         addClientButton.addMouseListener(new AddClientClickAction(clientEmployeeServices));
         addEmployeeButton.addMouseListener(new AddEmployeeClickAction(clientEmployeeServices));
+        добавитьButton.addMouseListener(new AddServiceContractAction(contractServices));
     }
 
     public JPanel getPanelMain() {
