@@ -32,12 +32,16 @@ public class MainWindow {
     private JButton addEmployeeButton;
     public JTable employeeJTable;
     public JTable clientsJTable;
-    private JTextField textField1;
     private JButton добавитьButton;
-    public JLabel ContractNameLabel;
-    public JLabel contractPriceLabel;
-    public JLabel clientIDLabel;
-    public JLabel workersIDLabel;
+    private JLabel ContractNameLabel;
+    private JLabel contractPriceLabel;
+    private JLabel clientIDLabel;
+    private JLabel workersIDLabel;
+    public JTextField contractNameText;
+    public JTextField contractPriceText;
+    public JTextField clientIDText;
+    public JTextField workersIDText;
+    public JTable contractJTable;
 
     private Connection connection = null;
 
@@ -54,7 +58,8 @@ public class MainWindow {
         contractServices = new ContractServices(this);
 
         addJButton.addMouseListener(new UpdatePersonClickAction(personRequestServices));
-        buttonMsg.addMouseListener(new UpdateFromClickAction(personRequestServices, clientEmployeeServices));
+        buttonMsg.addMouseListener(new UpdateFromClickAction(personRequestServices,
+                clientEmployeeServices,contractServices));
         personTable.addMouseListener(new SetPersonClickAction(personRequestServices));
         deletePersonJButton.addMouseListener(new DeletePersonClickAction(personRequestServices));
         personRequestServices.updateTable();

@@ -1,6 +1,7 @@
 package com.company.ServerApi.Controllers.RequestController;
 
 import com.company.Common.Models.Requests.PersonRequest;
+import com.company.Common.Models.Requests.ServiceContractRequest;
 import com.company.ServerApi.Controllers.ServerApiController;
 import com.company.ServerApi.Models.Connection;
 import com.google.gson.reflect.TypeToken;
@@ -10,27 +11,26 @@ import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.List;
 
-public class ContractRequestController extends ServerApiController<PersonRequest, PersonRequest> {
+public class ContractRequestController extends ServerApiController<ServiceContractRequest, ServiceContractRequest> {
 
     public ContractRequestController(Connection connection) {
         super(connection);
     }
 
     @Override
-    public PersonRequest create(PersonRequest body) {
+    public ServiceContractRequest create(ServiceContractRequest body) {
         String json = gson.toJson(body);
-        json = connection.sendMsg("AddPersonRequestCommand#" + json);
-        body = gson.fromJson(json, PersonRequest.class);
+        json = connection.sendMsg("AddContractRequestCommand#" + json);
+        body = gson.fromJson(json, ServiceContractRequest.class);
         return body;
     }
 
-    public List<PersonRequest> getAll() {
-        //String json = connection.sendMsg("GetPersonRequestCommand#all");
-        //Type typeOfT = new TypeToken<Collection<PersonRequest>>() {
-        //}.getType();
-        //List<PersonRequest> personRequestList = gson.fromJson(json, typeOfT);
-        //return personRequestList;
-        throw new NotImplementedException();
+    public List<ServiceContractRequest> getAll() {
+        String json = connection.sendMsg("GetContractRequestCommand#all");
+        Type typeOfT = new TypeToken<Collection<ServiceContractRequest>>() {
+        }.getType();
+        List<ServiceContractRequest> serviceContractRequest = gson.fromJson(json, typeOfT);
+        return serviceContractRequest;
     }
 
     public PersonRequest getByID(Integer id) {

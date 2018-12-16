@@ -20,16 +20,15 @@ public class SocketListener implements Runnable {
 
     public void run() {
         try {
-            while (true) {
-                Scanner input = new Scanner(socket.getInputStream());
-                if (input.hasNext()) {
-                    String cmd = input.nextLine();
-                    System.out.println(cmd);//logging
-                    String answer = ServerCommand.invokeCommands(cmd);
-                    PrintWriter output = new PrintWriter(socket.getOutputStream());
-                    output.println(answer);
-                    output.flush();
-                }
+            Scanner input = new Scanner(socket.getInputStream());
+            while (input.hasNext()) {
+                String cmd = input.nextLine();
+                System.out.println(cmd);//logging
+                String answer = ServerCommand.invokeCommands(cmd);
+                PrintWriter output = new PrintWriter(socket.getOutputStream());
+                output.println(answer);
+                output.flush();
+
             }
         } catch (Exception e) {
             hub.Connections.remove(socket);

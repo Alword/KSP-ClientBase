@@ -61,5 +61,7 @@ public class Mapping {
         new AddPersonRequestCommand();
         new GetPersonRequestCommand();
         new DeletePersonRequestCommand();
+        new AddContractRequestCommand();
+        new GetContractRequestCommand();
     }
 }

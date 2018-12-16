@@ -1,10 +1,13 @@
 package com.company.Client.Services;
 
 import com.company.Client.Forms.MainWindow;
-import com.company.Common.Models.Requests.ContractRequest;
 import com.company.Common.Models.Requests.ServiceContractRequest;
 import com.company.ServerApi.Controllers.RequestController.ContractRequestController;
 
+import javax.swing.table.DefaultTableModel;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 import java.util.Vector;
 
 public class ContractServices {
@@ -18,49 +21,76 @@ public class ContractServices {
     }
 
     public void addContractClick() {
-        ContractRequest contractRequest = new ContractRequest();
+        ServiceContractRequest contractRequest = new ServiceContractRequest();
 
         // Установить название
-        contractRequest.Name = window.ContractNameLabel.getText();
+        contractRequest.Name = window.contractNameText.getText();
 
         // Установить цену
-        String priceString = window.contractPriceLabel.getText();
+        String priceString = window.contractPriceText.getText();
         Double price = Double.parseDouble(priceString);
         contractRequest.Price = price;
 
         // Установить клиента
-        String clientIDString = window.clientIDLabel.getText();
+        String clientIDString = window.clientIDText.getText();
         Integer clientID = Integer.parseInt(clientIDString);
         contractRequest.ClientID = clientID;
 
         // Установить рабочих
-        String workersIDsString = window.workersIDLabel.getText();
+        String workersIDsString = window.workersIDText.getText();
         String[] workerIDsStringArray = workersIDsString.split(";");
         Vector<Integer> workerIDs = new Vector<>();
-        for (String workerIDString:
-             workerIDsStringArray) {
+        for (String workerIDString :
+                workerIDsStringArray) {
             Integer workerID = Integer.parseInt(workerIDString);
             workerIDs.add(workerID);
         }
         contractRequest.WorkerIDs = workerIDs;
+        contractRequest.contractData = null;
+        addContract(contractRequest);
     }
 
     public void addContract(ServiceContractRequest serviceContractRequest) {
         contractRequestController.create(serviceContractRequest);
     }
 
-    public void refreshClients() {
-        //List<Client> clients = contractRequestController.getAll();
-        /* DefaultTableModel clientsTableModel = new DefaultTableModel();
-        clientsTableModel.addColumn("id");
-        clientsTableModel.addColumn("Название");
-        for (Client client :
-                clients) {
+    public void refreshContracts() {
+        List<ServiceContractRequest> serviceContractRequests = contractRequestController.getAll();
+        DefaultTableModel contractsTableModel = new DefaultTableModel();
+
+        contractsTableModel.addColumn("id");
+        contractsTableModel.addColumn("Название");
+        contractsTableModel.addColumn("Цена");
+        contractsTableModel.addColumn("Клиент");
+        contractsTableModel.addColumn("Время");
+
+        for (ServiceContractRequest serviceContractRequest :
+                serviceContractRequests) {
             Vector<String> stringVector = new Vector<>();
-            stringVector.add(((Integer) client.Key).toString());
-            stringVector.add(client.OrganizationName);
-            clientsTableModel.addRow(stringVector);
+
+            //Добавить id;
+            stringVector.add(((Integer) serviceContractRequest.contractData.Key).toString());
+
+            //Добавить название
+            stringVector.add(serviceContractRequest.Name);
+
+            //Добавить цену
+            String priceString = serviceContractRequest.Price.toString();
+            stringVector.add(priceString);
+            //Добавить клиента
+            String clientIDString = serviceContractRequest.ClientID.toString();
+            stringVector.add(clientIDString);
+
+            //Добавить Время
+
+            long milliSeconds = serviceContractRequest.contractData.TimeStamp;
+            SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm");
+            Date resultDate = new Date(milliSeconds);
+            String contractDataString = sdf.format(resultDate);
+            stringVector.add(contractDataString);
+
+            contractsTableModel.addRow(stringVector);
         }
-        window.clientsJTable.setModel(clientsTableModel);*/
+        window.contractJTable.setModel(contractsTableModel);
     }
 }
