@@ -242,7 +242,7 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="55f7c" class="javax.swing.JLabel">
+              <component id="55f7c" class="javax.swing.JLabel" binding="ContractNameLabel">
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -263,7 +263,7 @@
                 </constraints>
                 <properties/>
               </component>
-              <component id="c32d3" class="javax.swing.JLabel">
+              <component id="c32d3" class="javax.swing.JLabel" binding="contractPriceLabel">
                 <constraints>
                   <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -271,7 +271,7 @@
                   <text value="Стоимость"/>
                 </properties>
               </component>
-              <component id="a73dd" class="javax.swing.JLabel">
+              <component id="a73dd" class="javax.swing.JLabel" binding="clientIDLabel">
                 <constraints>
                   <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -279,7 +279,7 @@
                   <text value="ID Клиента"/>
                 </properties>
               </component>
-              <component id="864d1" class="javax.swing.JLabel">
+              <component id="864d1" class="javax.swing.JLabel" binding="workersIDLabel">
                 <constraints>
                   <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>

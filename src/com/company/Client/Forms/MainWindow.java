@@ -31,6 +31,10 @@ public class MainWindow {
     public JTable clientsJTable;
     private JTextField textField1;
     private JButton добавитьButton;
+    private JLabel ContractNameLabel;
+    private JLabel contractPriceLabel;
+    private JLabel clientIDLabel;
+    private JLabel workersIDLabel;
 
     private Connection connection = null;
 
