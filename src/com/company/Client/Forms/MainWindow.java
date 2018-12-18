@@ -3,13 +3,10 @@ package com.company.Client.Forms;
 import com.company.Client.Actions.*;
 import com.company.Client.Services.ClientEmployeeServices;
 import com.company.Client.Services.ContractServices;
-import com.company.Client.Services.FilterContractServices;
 import com.company.Client.Services.PersonRequestServices;
 import com.company.ServerApi.Models.Connection;
 
 import javax.swing.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 
 public class MainWindow {
@@ -43,8 +40,10 @@ public class MainWindow {
     public JTextField clientIDText;
     public JTextField workersIDText;
     public JTable contractJTable;
-    private JTextField filterClient;
+    public JTextField filterClientText;
     private JButton filterButton;
+    public JTable filterTable;
+    public JTextField filterWorkersText;
 
     private Connection connection = null;
 
@@ -65,10 +64,7 @@ public class MainWindow {
         ContractServices contractServices = null;
         contractServices = new ContractServices(this);
         addContractButton.addMouseListener(new AddServiceContractAction(contractServices));
-
-        FilterContractServices filterContractServices = null;
-        filterContractServices = new FilterContractServices(this);
-        filterButton.addMouseListener(new FilterContractAction(filterContractServices));
+        filterButton.addMouseListener(new FilterContractAction(contractServices));
 
         buttonMsg.addMouseListener(new UpdateFromClickAction(personRequestServices,
                 clientEmployeeServices, contractServices));

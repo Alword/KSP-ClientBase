@@ -27,7 +27,7 @@ public class AddClientClickAction extends MouseAdapter {
         JPanel panel = new JPanel();
 
         textField = new JFormattedTextField();
-        textField.setSize(200, 200);
+        textField.setSize(300, 200);
         textField.setPreferredSize(new Dimension(200, 20));
         panel.add(textField);
 

@@ -1,17 +1,22 @@
 package com.company.Client.Services;
 
 import com.company.Client.Forms.MainWindow;
+import com.company.Common.Models.Domains.Employee;
 import com.company.Common.Models.Requests.ServiceContractRequest;
 import com.company.ServerApi.Controllers.RequestController.ContractRequestController;
 
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
+import java.util.stream.Collectors;
 
 public class ContractServices {
     private MainWindow window = null;
+
+    private List<ServiceContractRequest> serviceContractRequests = null;
 
     private ContractRequestController contractRequestController = null;
 
@@ -28,24 +33,18 @@ public class ContractServices {
 
         // Установить цену
         String priceString = window.contractPriceText.getText();
-        Double price = Double.parseDouble(priceString);
-        contractRequest.Price = price;
+        if (priceString == "") {
+            contractRequest.Price = 0d;
+        } else {
+            Double price = Double.parseDouble(priceString);
+            contractRequest.Price = price;
+        }
 
         // Установить клиента
-        String clientIDString = window.clientIDText.getText();
-        Integer clientID = Integer.parseInt(clientIDString);
-        contractRequest.ClientID = clientID;
+        contractRequest.ClientID = getInteger(window.clientIDText);
 
         // Установить рабочих
-        String workersIDsString = window.workersIDText.getText();
-        String[] workerIDsStringArray = workersIDsString.split(";");
-        Vector<Integer> workerIDs = new Vector<>();
-        for (String workerIDString :
-                workerIDsStringArray) {
-            Integer workerID = Integer.parseInt(workerIDString);
-            workerIDs.add(workerID);
-        }
-        contractRequest.WorkerIDs = workerIDs;
+        contractRequest.WorkerIDs = getWorkerIDs(window.workersIDText);
         contractRequest.contractData = null;
         addContract(contractRequest);
     }
@@ -55,7 +54,46 @@ public class ContractServices {
     }
 
     public void refreshContracts() {
-        List<ServiceContractRequest> serviceContractRequests = contractRequestController.getAll();
+        serviceContractRequests = contractRequestController.getAll();
+        fillTable(serviceContractRequests, window.contractJTable);
+    }
+
+    public void filter() {
+
+        List<ServiceContractRequest> filtered = serviceContractRequests;
+
+        //Проверить клиента
+        filtered = filterClientID(filtered);
+        //Проверить рабочих
+        filtered = filterWorkersID(filtered);
+        //Проверить время
+        filtered = filterTime(filtered);
+
+        fillTable(filtered, window.filterTable);
+    }
+
+    private List<ServiceContractRequest> filterClientID(List<ServiceContractRequest> list) {
+        Integer clientID = getInteger(window.filterClientText);
+        if (clientID == 0) {
+            return list;
+        } else {
+            list = list.stream().filter(s -> s.ClientID == clientID).collect(Collectors.toList());
+            return list;
+        }
+    }
+
+    private List<ServiceContractRequest> filterWorkersID(List<ServiceContractRequest> list) {
+        List<Integer> workerIDs = getWorkerIDs(window.filterWorkersText);
+        list = list.stream().filter(s -> s.WorkerIDs.containsAll(workerIDs)).collect(Collectors.toList());
+        return list;
+    }
+
+    private List<ServiceContractRequest> filterTime(List<ServiceContractRequest> list) {
+        //check time
+        return list;
+    }
+
+    private void fillTable(List<ServiceContractRequest> requests, JTable table) {
         DefaultTableModel contractsTableModel = new DefaultTableModel();
 
         contractsTableModel.addColumn("id");
@@ -66,7 +104,7 @@ public class ContractServices {
         contractsTableModel.addColumn("Время");
 
         for (ServiceContractRequest serviceContractRequest :
-                serviceContractRequests) {
+                requests) {
             Vector<String> stringVector = new Vector<>();
 
             //Добавить id;
@@ -99,6 +137,36 @@ public class ContractServices {
 
             contractsTableModel.addRow(stringVector);
         }
-        window.contractJTable.setModel(contractsTableModel);
+        table.setModel(contractsTableModel);
+    }
+
+    private boolean isNull(String string) {
+        return (string == null || string.equals(""));
+    }
+
+    private Integer getInteger(JTextField field) {
+        String clientIDString = field.getText();
+
+        if (isNull(clientIDString))
+            return 0;
+
+        return Integer.parseInt(clientIDString);
+    }
+
+    private List<Integer> getWorkerIDs(JTextField field) {
+        // TODO: it's can be single method like getArray<T>;
+        // actually too many thinks to do
+        // but it's just works
+        String workersIDsString = field.getText();
+        String[] workerIDsStringArray = workersIDsString.split(";");
+        Vector<Integer> workerIDs = new Vector<>();
+        for (String workerIDString : workerIDsStringArray) {
+            if (isNull(workerIDString))
+                continue;
+
+            Integer workerID = Integer.parseInt(workerIDString);
+            workerIDs.add(workerID);
+        }
+        return workerIDs;
     }
 }

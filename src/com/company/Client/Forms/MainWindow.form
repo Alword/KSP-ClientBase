@@ -345,7 +345,7 @@
                   <text value="Клиент"/>
                 </properties>
               </component>
-              <component id="593f" class="javax.swing.JTextField" binding="filterClient">
+              <component id="593f" class="javax.swing.JTextField" binding="filterClientText">
                 <constraints>
                   <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                     <preferred-size width="150" height="-1"/>
@@ -363,7 +363,7 @@
                   <text value="Рабочий"/>
                 </properties>
               </component>
-              <component id="821a1" class="javax.swing.JTextField">
+              <component id="821a1" class="javax.swing.JTextField" binding="filterWorkersText">
                 <constraints>
                   <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                     <preferred-size width="150" height="-1"/>
@@ -394,7 +394,7 @@
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <component id="5676f" class="javax.swing.JTable">
+                  <component id="5676f" class="javax.swing.JTable" binding="filterTable">
                     <constraints/>
                     <properties/>
                   </component>
