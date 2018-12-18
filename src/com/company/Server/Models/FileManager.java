@@ -5,6 +5,7 @@ import com.company.Server.IOC;
 import com.google.gson.Gson;
 
 import java.io.*;
+import java.nio.file.NoSuchFileException;
 import java.util.Scanner;
 
 public class FileManager {
@@ -28,7 +29,7 @@ public class FileManager {
             reader = new Scanner(new File("local.damp"));
             IOC.DatabaseInstance = gson.fromJson(reader.next(), ClientBaseContext.class);
             reader.close();
-        } catch (FileNotFoundException e) {
+        } catch (Exception ex) {
             System.out.println("Файл не найден");
         }
     }
